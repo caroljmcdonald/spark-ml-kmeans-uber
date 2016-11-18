@@ -22,10 +22,15 @@ Copy the data file using scp to here:
 /user/user01/data/uber.csv
 
 
-To Run the Spark Consumer Producer (in separate consoles if you want to run at the same time) run the spark consumer with the topic to read from and write to:
+To Run the Spark k-means program: 
 
 spark-submit --class com.sparkml.uber.ClusterUber --master local[2] --packages com.databricks:spark-csv_2.10:1.5.0  spark-kmeans-1.0.jar  
 
+you can also run the code in  ClusterUber.scala in the spark shell 
+
+$spark-shell --master local[2]
+
+There is also a notebook file, in the notebooks directory, which you can import and run in Zeppelin, or view in a Zeppelin viewer
     
  - For Yarn you should change --master parameter to yarn-client - "--master yarn-client"
 
