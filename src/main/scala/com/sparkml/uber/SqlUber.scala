@@ -38,7 +38,7 @@ object SqlUber {
     import sqlContext._
 
 
-
+    // read saved json data
     val df = sqlContext.read.json("uberclusterstest").cache()
 
     df.printSchema
@@ -60,12 +60,6 @@ object SqlUber {
     df.select(month($"dt").alias("month"), dayofmonth($"dt").alias("day"), hour($"dt").alias("hour"), $"prediction").groupBy("month", "day", "hour", "prediction").agg(count("prediction").alias("count")).orderBy("day", "hour", "prediction").show
 
     df.select(month($"dt").alias("month"), dayofmonth($"dt").alias("day"), hour($"dt").alias("hour"), $"prediction").groupBy("month", "day", "hour", "prediction").agg(count("prediction").alias("count")).orderBy("day", "hour", "prediction").show
-
-
-    // List and also count the number of times the closing price for SPY went up or down by more than 4 
-    var res = sqlContext.sql("SELECT spy.dt, spy.openprice, spy.closeprice, abs(spy.closeprice - spy.openprice) as spydif FROM spy WHERE abs(spy.closeprice - spy.openprice) > 4 ")
-    res.show
-    res.count
 
    
   }
