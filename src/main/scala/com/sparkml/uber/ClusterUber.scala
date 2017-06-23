@@ -38,13 +38,15 @@ object ClusterUber {
     val assembler = new VectorAssembler().setInputCols(featureCols).setOutputCol("features")
     val df2 = assembler.transform(df)
     val Array(trainingData, testData) = df2.randomSplit(Array(0.7, 0.3), 5043)
+    trainingData.cache()
+    testData.cache()
     // increase the iterations if running on a cluster (this runs on a 1 node sandbox)
     val kmeans = new KMeans().setK(8).setFeaturesCol("features").setMaxIter(1)
     val model = kmeans.fit(trainingData)
     println("Final Centers: ")
     model.clusterCenters.foreach(println)
 
-    val categories = model.transform(testData)
+    val categories = model.transform(testData).cache()
     
     categories.show
     categories.registerTempTable("uber")
